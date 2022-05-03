@@ -63,7 +63,8 @@ public class PersistentAccountDAO implements AccountDAO {
         Account account;
 
         SQLiteDatabase sqLiteDatabase = databaseHelper.getReadableDatabase();   // Open database in read only mode
-        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM accounts WHERE account_no = " + accountNo + " LIMIT 1", null);
+        String[] args = {accountNo};
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM accounts WHERE account_no = ?" + " LIMIT 1", args);
 
         if (cursor.moveToFirst()){
             String accNo = cursor.getString(cursor.getColumnIndex("account_no"));
