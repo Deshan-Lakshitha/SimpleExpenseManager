@@ -68,15 +68,15 @@ public class PersistentTransactionDAO implements TransactionDAO {
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         while (cursor.moveToNext()) {
             try {
-                date = format.parse(cursor.getString(cursor.getColumnIndex("date")));
+                date = format.parse(cursor.getString(cursor.getColumnIndexOrThrow("date")));
                 System.out.println(date);
             } catch (ParseException e) {
                 date = null;
                 e.printStackTrace();
             }
-            accountNo = cursor.getString(cursor.getColumnIndex("account_no"));
-            expenseType = ExpenseType.valueOf(cursor.getString(cursor.getColumnIndex("expense_type")));
-            amount = cursor.getDouble(cursor.getColumnIndex("amount"));
+            accountNo = cursor.getString(cursor.getColumnIndexOrThrow("account_no"));
+            expenseType = ExpenseType.valueOf(cursor.getString(cursor.getColumnIndexOrThrow("expense_type")));
+            amount = cursor.getDouble(cursor.getColumnIndexOrThrow("amount"));
             transactions.add(new Transaction(date, accountNo, expenseType, amount));
         }
         return transactions;

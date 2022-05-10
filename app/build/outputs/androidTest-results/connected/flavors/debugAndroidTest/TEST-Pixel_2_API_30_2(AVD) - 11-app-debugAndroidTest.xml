@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuite name="lk.ac.mrt.cse.dbs.simpleexpensemanager.ApplicationTest" tests="1" failures="0" errors="0" skipped="0" time="0.045" timestamp="2022-05-10T22:28:52" hostname="localhost">
+  <properties>
+    <property name="device" value="Pixel_2_API_30_2(AVD) - 11" />
+    <property name="flavor" value="debugAndroidTest" />
+    <property name="project" value="app" />
+  </properties>
+  <testcase name="checkAccount" classname="lk.ac.mrt.cse.dbs.simpleexpensemanager.ApplicationTest" time="0.0" />
+</testsuite>

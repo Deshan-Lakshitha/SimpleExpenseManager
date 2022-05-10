@@ -17,13 +17,61 @@
 package lk.ac.mrt.cse.dbs.simpleexpensemanager;
 
 import android.app.Application;
+import android.content.Context;
 import android.test.ApplicationTestCase;
+
+import androidx.test.core.app.ApplicationProvider;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import lk.ac.mrt.cse.dbs.simpleexpensemanager.control.ExpenseManager;
+import lk.ac.mrt.cse.dbs.simpleexpensemanager.control.PersistentExpenseManager;
+import lk.ac.mrt.cse.dbs.simpleexpensemanager.control.exception.ExpenseManagerException;
+import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.database.DatabaseHelper;
+import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.exception.InvalidAccountException;
+import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.model.ExpenseType;
+
+import static org.junit.Assert.*;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 /**
  * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
  */
-public class ApplicationTest extends ApplicationTestCase<Application> {
-    public ApplicationTest() {
-        super(Application.class);
+public class ApplicationTest  {
+
+    private static ExpenseManager expenseManager;
+    private int initial_length;
+
+    @BeforeClass
+    public static void addAccount() throws ExpenseManagerException {
+        Context context = ApplicationProvider.getApplicationContext();
+        DatabaseHelper.createInstance(context);
+        expenseManager = new PersistentExpenseManager();
+        expenseManager.addAccount("10001", "BOC", "Deshan", 1000);
     }
+
+    @Test
+    public void checkAccount() {
+        try {
+            assertTrue(expenseManager.getAccountsDAO().getAccount("10001").getAccountNo().equals("10001"));
+        } catch (InvalidAccountException e) {
+            fail();
+        }
+    }
+
+    @Test
+    public void checkTransaction() {
+        initial_length = expenseManager.getTransactionsDAO().getAllTransactionLogs().size();
+        try {
+            expenseManager.updateAccountBalance("10001", 11, 5, 2022, ExpenseType.valueOf("EXPENSE"), "100");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(expenseManager.getTransactionsDAO().getAllTransactionLogs().size() - initial_length == 1);
+    }
+
 }
