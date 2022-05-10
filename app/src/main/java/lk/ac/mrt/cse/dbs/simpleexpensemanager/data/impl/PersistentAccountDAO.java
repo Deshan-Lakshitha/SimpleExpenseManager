@@ -29,7 +29,7 @@ public class PersistentAccountDAO implements AccountDAO {
         Cursor cursor = sqLiteDatabase.rawQuery("SELECT account_no FROM accounts", null);
 
         while (cursor.moveToNext()) {
-            accountNumbers.add(cursor.getString(cursor.getColumnIndex("account_no")));
+            accountNumbers.add(cursor.getString(cursor.getColumnIndexOrThrow("account_no")));
         }
 
         return accountNumbers;
@@ -48,10 +48,10 @@ public class PersistentAccountDAO implements AccountDAO {
         String accountHolderName;
         double balance;
         while (cursor.moveToNext()) {
-            accountNo =  cursor.getString(cursor.getColumnIndex("account_no"));
-            bankName =  cursor.getString(cursor.getColumnIndex("bank_name"));
-            accountHolderName = cursor.getString(cursor.getColumnIndex("account_holder_name"));
-            balance = cursor.getDouble(cursor.getColumnIndex("balance"));
+            accountNo =  cursor.getString(cursor.getColumnIndexOrThrow("account_no"));
+            bankName =  cursor.getString(cursor.getColumnIndexOrThrow("bank_name"));
+            accountHolderName = cursor.getString(cursor.getColumnIndexOrThrow("account_holder_name"));
+            balance = cursor.getDouble(cursor.getColumnIndexOrThrow("balance"));
             accounts.add(new Account(accountNo, bankName, accountHolderName, balance));
         }
 
@@ -67,10 +67,10 @@ public class PersistentAccountDAO implements AccountDAO {
         Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM accounts WHERE account_no = ?" + " LIMIT 1", args);
 
         if (cursor.moveToFirst()){
-            String accNo = cursor.getString(cursor.getColumnIndex("account_no"));
-            String bankName = cursor.getString(cursor.getColumnIndex("bank_name"));
-            String accountHolderName = cursor.getString(cursor.getColumnIndex("account_holder_name"));
-            double balance = cursor.getDouble(cursor.getColumnIndex("balance"));
+            String accNo = cursor.getString(cursor.getColumnIndexOrThrow("account_no"));
+            String bankName = cursor.getString(cursor.getColumnIndexOrThrow("bank_name"));
+            String accountHolderName = cursor.getString(cursor.getColumnIndexOrThrow("account_holder_name"));
+            double balance = cursor.getDouble(cursor.getColumnIndexOrThrow("balance"));
 
             account = new Account(accNo, bankName, accountHolderName, balance);
             return account;
